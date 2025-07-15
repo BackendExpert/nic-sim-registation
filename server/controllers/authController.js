@@ -7,9 +7,10 @@ const User = require('../models/User');
 const transporter = require('../utils/emailTransporter');
 const UserOTP = require('../models/UserOTP');
 
+
 const authController = {
-    signup: async(req, res ) => {
-        try{
+    signup: async (req, res) => {
+        try {
             const {
                 username,
                 email,
@@ -27,11 +28,40 @@ const authController = {
                 ]
             });
 
+            const hashpass = await bcrypt.hash(password, 10)
+
+            const finduserrole = await Role.findOne({ name: 'staff' })
+
+            const createnewuser = new User({
+                username: username,
+                email: email,
+                password: hashpass,
+                roles: finduserrole._id
+            })
+
+            const resultnewuser = await createnewuser.save()
+
+            if (resultnewuser) {
+                const generateSecureCode = (length = 10) => {
+                    return crypto.randomBytes(length)
+                        .toString('base64')
+                        .replace(/[^a-zA-Z0-9]/g, '')
+                        .slice(0, length);
+                };
+
+                const newCode = generateSecureCode(10);
+
+                const hashcoed = await bcrypt.hash(newCode, 10)
+
+                
+                
+            }
+
             if (checkUser) {
                 return res.json({ Error: "User already exists in the system" })
             }
         }
-        catch(err){
+        catch (err) {
             console.log(err)
         }
     }
