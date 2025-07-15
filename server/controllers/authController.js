@@ -112,20 +112,62 @@ const authController = {
 
             const checkotp = await UserOTP.findOne({ email: email })
 
-            if(!checkotp){
-                return res.json({ Error: "Cannot Continue"})
+            if (!checkotp) {
+                return res.json({ Error: "Cannot Continue" })
             }
 
             const checkotpmatch = await bcrypt.compare(otp, checkotp.otp)
 
-            if(!checkotpmatch){
+            if (!checkotpmatch) {
                 return res.json({ Error: "OTP is not Match Please check the OTP" })
             }
 
             await User.updateOne({ email }, { emailVerified: true });
             await UserOTP.deleteOne({ email });
 
-            return res.json({ Status: "Success", Message: "Your email is verfy Success"})
+            return res.json({ Status: "Success", Message: "Your email is verfy Success" })
+        }
+        catch (err) {
+            console.log(err)
+        }
+    },
+
+    signin: async (req, res) => {
+        try {
+            const {
+                email,
+                password
+            } = req.body
+
+            const checkuser = await User.findOne({ email: email })
+
+            if (!checkuser) {
+                return res.json({ Error: "Use Already in Database" })
+            }
+
+            const checkpass = await bcrypt.compare(password, checkuser.password)
+
+            if (!checkpass) {
+                return res.json({ Error: "Password Not Match.., check the Password" })
+            }
+
+            if (checkuser.emailVerified === false) {
+                return res.json({ Errror: "Email Not Verified..., Please Contact this Admin" })
+            }
+
+            if (checkuser.active === false) {
+                return res.json({ Error: "Your Account is not Active.., Please Contact this Admin " })
+            }
+
+            const token = jwt.sign({ id: checkuser._id, role: checkuser.roles, user: checkuser }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+            if (token) {
+                return res.json({ Status: "Success", Message: "Login Success", Token: token })
+            }
+            else {
+                return res.json({ Error: "Internal Server Error while signin" })
+            }
+
         }
         catch (err) {
             console.log(err)
