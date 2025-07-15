@@ -51,10 +51,43 @@ const authController = {
 
                 const newCode = generateSecureCode(10);
 
-                const hashcoed = await bcrypt.hash(newCode, 10)
+                const hashcode = await bcrypt.hash(newCode, 10)
 
-                
-                
+                const mailOptions = {
+                    from: process.env.EMAIL_USER,
+                    to: email,
+                    subject: 'Account Verification Code, SIM Regisation ',
+                    html: `
+                            <p>Dear ${username},</p>
+                            <p>Thank you for registering at the Online SIM Regisation Verification System.</p>
+                            <p>Your Email verification code is:</p>
+                            <h2 style="color:#7c340c;">${verificationCode}</h2>                          
+                            <br>
+                            <p style="color:gray;">Do not share this code with anyone.</p>
+                        `,
+                };
+
+                const storeOTP = new UserOTP({
+                    email: email,
+                    otp: hashcode
+                })
+
+                const resultstoreotp = await storeOTP.save()
+
+                transporter.sendMail(mailOptions, (err, info) => {
+                    if (err) {
+                        return res.json({ Error: "Registration succeeded, but failed to send verification email." });
+                    } else {
+                        const tokenemailVerify = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '5min' });
+
+                        return res.json({
+                            Status: "Success",
+                            verifyToken: tokenemailVerify,
+                            Message: "Registration successful. Verification code sent to your email. Verify Email Please wait and wait for activation."
+                        });
+                    }
+                });
+
             }
 
             if (checkUser) {
