@@ -3,6 +3,7 @@ import './App.css'
 import HomePage from './pages/HomePage/HomePage'
 import SignIn from './pages/Authpages/SignIn'
 import Err404 from './components/Errors/Err404'
+import SignUp from './pages/AuthPages/SignUp'
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
                     <Route path='/test' element={<HomePage /> } />
                     <Route path='*' element={<Err404 /> } />
                     <Route path='/' element={<SignIn /> } />
+                    <Route path='/Signup' element={<SignUp />} />
                 </Routes>
             </BrowserRouter>
         </>

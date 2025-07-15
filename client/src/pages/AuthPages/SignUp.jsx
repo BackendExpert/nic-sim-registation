@@ -2,12 +2,12 @@ import React from 'react'
 import DefaultInput from '../../components/Forms/DefaultInput'
 import DefaultBtn from '../../components/Buttons/DefaultBtn'
 
-const SignIn = () => {
+const SignUp = () => {
     return (
         <div
             className="min-h-screen flex items-center justify-center px-4 py-8 bg-cover bg-center"
             style={{
-                backgroundImage: `url('https://wallpapercave.com/wp/wp15140065.webp')`
+                backgroundImage: `url('https://wallpapercave.com/wp/wp15140049.webp')`
             }}
         >
             <div className="w-full max-w-md bg-white bg-opacity-90 shadow-2xl rounded-3xl p-8 sm:p-10 md:p-12">
@@ -15,10 +15,17 @@ const SignIn = () => {
                     Welcome to SIM Registration
                 </h1>
                 <p className="text-center text-blue-700 font-medium mb-8 text-sm sm:text-base">
-                    Please sign in to continue
+                    SignUp
                 </p>
 
                 <form method="post" className="space-y-6">
+                    <DefaultInput
+                        label="Username"
+                        type="text"
+                        name="username"
+                        placeholder="username"
+                        required
+                    />
                     <DefaultInput
                         label="Email Address"
                         type="email"
@@ -36,7 +43,7 @@ const SignIn = () => {
                     <div className="text-center">
                         <DefaultBtn
                             type="submit"
-                            label="Sign In"
+                            label="Create New Account"
                         />
                     </div>
                 </form>
@@ -44,14 +51,8 @@ const SignIn = () => {
                 <div className="mt-6 text-center text-sm text-blue-900">
                     <div className="flex justify-center">
                         <div className="">
-                            <a href="#" className="text-blue-700 underline hover:text-blue-900 transition-colors">
-                                Reset here
-                            </a>
-                        </div>
-                        <div className="px-2">|</div>
-                        <div className="">
-                            <a href="/Signup" className="text-blue-700 underline hover:text-blue-900 transition-colors">
-                                Create New Account
+                            <a href="/" className="text-blue-700 underline hover:text-blue-900 transition-colors">
+                                Already have an Account ?
                             </a>
                         </div>
                     </div>
@@ -61,4 +62,4 @@ const SignIn = () => {
     )
 }
 
-export default SignIn
+export default SignUp
