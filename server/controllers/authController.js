@@ -97,6 +97,39 @@ const authController = {
         catch (err) {
             console.log(err)
         }
+    },
+
+    verfiyemail: async (req, res) => {
+        try {
+            const token = req.header('Authorization');
+            if (!token || !token.startsWith('Bearer ')) {
+                return res.json({ Error: "Missing or invalid token" });
+            }
+            const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);
+            const email = decoded.email;
+
+            const { otp } = req.body;
+
+            const checkotp = await UserOTP.findOne({ email: email })
+
+            if(!checkotp){
+                return res.json({ Error: "Cannot Continue"})
+            }
+
+            const checkotpmatch = await bcrypt.compare(otp, checkotp.otp)
+
+            if(!checkotpmatch){
+                return res.json({ Error: "OTP is not Match Please check the OTP" })
+            }
+
+            await User.updateOne({ email }, { emailVerified: true });
+            await UserOTP.deleteOne({ email });
+
+            return res.json({ Status: "Success", Message: "Your email is verfy Success"})
+        }
+        catch (err) {
+            console.log(err)
+        }
     }
 };
 
