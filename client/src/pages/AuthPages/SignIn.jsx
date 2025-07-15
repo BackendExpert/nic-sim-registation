@@ -45,7 +45,7 @@ const SignIn = () => {
                     <div className="flex justify-center">
                         <div className="">
                             <a href="#" className="text-blue-700 underline hover:text-blue-900 transition-colors">
-                                Reset here
+                                Forget Password
                             </a>
                         </div>
                         <div className="px-2">|</div>
