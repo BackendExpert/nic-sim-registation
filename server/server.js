@@ -5,11 +5,14 @@ const cors = require('cors');
 const path = require('path'); 
 const bodyParser = require('body-parser');
 
-
 // database connections
-
+const ConnectDB = require('./config/DB');
 
 // routes
+
+
+
+ConnectDB()
 
 const app = express();
 const PORT = process.env.PORT || 5000;
