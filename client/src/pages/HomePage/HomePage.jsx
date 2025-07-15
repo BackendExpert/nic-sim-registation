@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import DateInput from '../../components/Forns/DateInput'
-import DefaultInput from '../../components/Forns/DefaultInput'
-import Dropdown from '../../components/Forns/Dropdown'
-import FileInput from '../../components/Forns/FileInput'
-import TextAreaInput from '../../components/Forns/TextAreaInput'
+import DateInput from '../../components/Forms/DateInput'
+import DefaultInput from '../../components/Forms/DefaultInput'
+import Dropdown from '../../components/Forms/Dropdown'
+import FileInput from '../../components/Forms/FileInput'
+import TextAreaInput from '../../components/Forms/TextAreaInput'
 import DefaultBtn from '../../components/Buttons/DefaultBtn'
 
 const HomePage = () => {
