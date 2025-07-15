@@ -1,6 +1,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import HomePage from './pages/HomePage/HomePage'
+import SignIn from './pages/Authpages/SignIn'
+import Err404 from './components/Errors/Err404'
 
 function App() {
 
@@ -8,7 +10,9 @@ function App() {
         <>
             <BrowserRouter>
                 <Routes>
-                    <Route path='/' element={<HomePage /> } />
+                    <Route path='/test' element={<HomePage /> } />
+                    <Route path='*' element={<Err404 /> } />
+                    <Route path='/' element={<SignIn /> } />
                 </Routes>
             </BrowserRouter>
         </>
