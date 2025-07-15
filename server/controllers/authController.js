@@ -61,7 +61,7 @@ const authController = {
                             <p>Dear ${username},</p>
                             <p>Thank you for registering at the Online SIM Regisation Verification System.</p>
                             <p>Your Email verification code is:</p>
-                            <h2 style="color:#7c340c;">${verificationCode}</h2>                          
+                            <h2 style="color:#7c340c;">${newCode}</h2>                          
                             <br>
                             <p style="color:gray;">Do not share this code with anyone.</p>
                         `,
@@ -81,9 +81,9 @@ const authController = {
                         const tokenemailVerify = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '5min' });
 
                         return res.json({
-                            Status: "Success",
+                            Status: "Succsss",
                             verifyToken: tokenemailVerify,
-                            Message: "Registration successful. Verification code sent to your email. Verify Email Please wait and wait for activation."
+                            Message: "Registration Succsssful. Verification code sent to your email. Verify Email Please wait and wait for activation."
                         });
                     }
                 });
