@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage/HomePage'
 import SignIn from './pages/Authpages/SignIn'
 import Err404 from './components/Errors/Err404'
 import SignUp from './pages/AuthPages/SignUp'
+import VerifyEmail from './pages/AuthPages/VerifyEmail'
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
                     <Route path='*' element={<Err404 /> } />
                     <Route path='/' element={<SignIn /> } />
                     <Route path='/Signup' element={<SignUp />} />
+                    <Route path='/verify-email' element={<VerifyEmail />} />
                 </Routes>
             </BrowserRouter>
         </>
