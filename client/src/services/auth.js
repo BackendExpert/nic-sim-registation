@@ -17,9 +17,13 @@ export const signup = async (data) => {
     }
 };
 
-export const verifyemail = async (data) => {
+export const verifyemail = async (data, token) => {
     try {
-        const res = await axios.post(apiurl + '/verify-email', data);
+        const res = await axios.post(apiurl + '/verify-email', data, {
+            headers: {
+                
+            }
+        });
         if (res.data.Status === "Succsss") {
             localStorage.clear()
             return { success: true, message: res.data.Message };
