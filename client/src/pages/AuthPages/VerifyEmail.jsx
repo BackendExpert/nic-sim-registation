@@ -1,8 +1,53 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import DefaultBtn from '../../components/Buttons/DefaultBtn'
 import DefaultInput from '../../components/Forms/DefaultInput'
+import secureLocalStorage from 'react-secure-storage'
+import { useNavigate } from 'react-router-dom'
+import { verifyemail } from '../../services/auth'
 
 const VerifyEmail = () => {
+    const navigate = useNavigate()
+    const emailverifytokem = secureLocalStorage.getItem('verifyemail')
+
+    useEffect(() => {
+        if (emailverifytokem) {
+            return true
+        }
+        else {
+            localStorage.clear()
+            navigate('/', { replace: true })
+        }
+    }, [])
+
+    const [verifyemaildata, setverifyemaildata] = useState({
+        otp: ''
+    })
+
+    const handleChange = (e) => {
+        setverifyemaildata({ ...verifyemaildata, [e.target.name]: e.target.value });
+    };
+
+    const [message, setMessage] = useState(null);
+    const [isSuccess, setIsSuccess] = useState(null);
+
+
+    const headleSubmit = async (e) => {
+        e.preventDefault();
+        setMessage(null);
+        setIsSuccess(null);
+
+        const result = await verifyemail(verifyemaildata);
+        if (result.success) {
+            setMessage(result.message);
+            setIsSuccess(true);
+            localStorage.clear()
+            navigate('/', {replace: true})
+        } else {
+            setMessage(`Error: ${result.error}`);
+            setIsSuccess(false);
+        }
+    }
+
     return (
         <div
             className="min-h-screen flex items-center justify-center px-4 py-8 bg-cover bg-center"
@@ -19,8 +64,10 @@ const VerifyEmail = () => {
                     <DefaultInput
                         label="Username"
                         type="text"
-                        name="username"
-                        placeholder="username"
+                        name="otp"
+                        placeholder="OTP Number"
+                        value={verifyemaildata.otp}
+                        onChange={handleChange}
                         required
                     />
                     <div className="text-center">

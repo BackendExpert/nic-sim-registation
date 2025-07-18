@@ -2,8 +2,11 @@ import React, { useState } from 'react'
 import DefaultInput from '../../components/Forms/DefaultInput'
 import DefaultBtn from '../../components/Buttons/DefaultBtn'
 import { signup } from '../../services/auth'
+import { useNavigate } from 'react-router-dom';
+
 
 const SignUp = () => {
+    const naviagte = useNavigate()
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -26,6 +29,7 @@ const SignUp = () => {
         if (result.success) {
             setMessage(result.message);
             setIsSuccess(true);
+            naviagte('/verify-email')
         } else {
             setMessage(`Error: ${result.error}`);
             setIsSuccess(false);
