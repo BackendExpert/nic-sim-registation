@@ -125,7 +125,7 @@ const authController = {
             await User.updateOne({ email }, { emailVerified: true });
             await UserOTP.deleteOne({ email });
 
-            return res.json({ Status: "Success", Message: "Your email is verfy Success" })
+            return res.json({ Status: "Succsss", Message: "Your email is verfy Success" })
         }
         catch (err) {
             console.log(err)

@@ -17,11 +17,12 @@ export const signup = async (data) => {
     }
 };
 
-export const verifyemail = async (data, token) => {
+export const verifyemail = async (data) => {
     try {
+        const emailverifytokem = secureLocalStorage.getItem('verifyemail')
         const res = await axios.post(apiurl + '/verify-email', data, {
             headers: {
-                
+                Authorization: `Bearer ${emailverifytokem}`,
             }
         });
         if (res.data.Status === "Succsss") {
@@ -34,3 +35,20 @@ export const verifyemail = async (data, token) => {
         return { success: false, error: err.message || "Something went wrong" };
     }
 };
+
+export const signin = async (data) => {
+    try {
+        const res = await axios.post(apiurl + '/signin', data)
+        if (res.data.Status === "Success") {
+            localStorage.setItem('login', res.data.Token);
+            localStorage.setItem('dashmenuID', 1);
+            return { success: true, message: res.data.Message };
+        }
+        else {
+            return { success: false, error: res.data.Error };
+        }
+    }
+    catch (err) {
+        return { success: false, error: err.message || "Something went wrong" };
+    }
+}

@@ -1,9 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import DefaultInput from '../../components/Forms/DefaultInput'
 import DefaultBtn from '../../components/Buttons/DefaultBtn'
+import { useNavigate } from 'react-router-dom'
+import { signin } from '../../services/auth'
 
 const SignIn = () => {
+    const naviagte = useNavigate()
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
 
+    const [message, setMessage] = useState(null);
+    const [isSuccess, setIsSuccess] = useState(null);
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setMessage(null);
+        setIsSuccess(null);
+
+        const result = await signin(formData);
+        if (result.success) {
+            setMessage(result.message);
+            alert(result.message)
+            setIsSuccess(true);
+            naviagte('/Dashboard/Home');
+        } else {
+            setMessage(`Error: ${result.error}`);
+            setIsSuccess(false);
+        }
+    };
     return (
         <div
             className="min-h-screen flex items-center justify-center px-4 py-8 bg-cover bg-center"
@@ -19,12 +49,13 @@ const SignIn = () => {
                     Please sign in to continue
                 </p>
 
-                <form method="post" className="space-y-6">
+                <form onSubmit={handleSubmit} method="post" className="space-y-6">
                     <DefaultInput
                         label="Email Address"
                         type="email"
                         name="email"
                         placeholder="you@example.com"
+                        onChange={handleChange}
                         required
                     />
                     <DefaultInput
@@ -32,6 +63,7 @@ const SignIn = () => {
                         type="password"
                         name="password"
                         placeholder="••••••••"
+                        onChange={handleChange}
                         required
                     />
                     <div className="text-center">

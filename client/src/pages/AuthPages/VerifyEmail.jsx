@@ -10,14 +10,11 @@ const VerifyEmail = () => {
     const emailverifytokem = secureLocalStorage.getItem('verifyemail')
 
     useEffect(() => {
-        if (emailverifytokem) {
-            return true
+        if (!emailverifytokem) {
+            localStorage.clear();
+            navigate('/', { replace: true });
         }
-        else {
-            localStorage.clear()
-            navigate('/', { replace: true })
-        }
-    }, [])
+    }, []);
 
     const [verifyemaildata, setverifyemaildata] = useState({
         otp: ''
@@ -38,12 +35,12 @@ const VerifyEmail = () => {
 
         const result = await verifyemail(verifyemaildata);
         if (result.success) {
-            setMessage(result.message);
+            alert(result.message);
             setIsSuccess(true);
             localStorage.clear()
-            navigate('/', {replace: true})
+            navigate('/', { replace: true })
         } else {
-            setMessage(`Error: ${result.error}`);
+            alert(`Error: ${result.error}`);
             setIsSuccess(false);
         }
     }
@@ -60,9 +57,9 @@ const VerifyEmail = () => {
                     You must verify email here if not you cannot verify after and cannot signin to system
                 </p>
 
-                <form className="space-y-6">
+                <form onSubmit={headleSubmit} className="space-y-6">
                     <DefaultInput
-                        label="Username"
+                        label="OTP Number"
                         type="text"
                         name="otp"
                         placeholder="OTP Number"

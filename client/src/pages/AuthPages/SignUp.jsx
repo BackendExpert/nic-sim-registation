@@ -28,6 +28,7 @@ const SignUp = () => {
         const result = await signup(formData);
         if (result.success) {
             setMessage(result.message);
+            alert(result.message)
             setIsSuccess(true);
             naviagte('/verify-email')
         } else {
